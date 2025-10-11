@@ -1,0 +1,115 @@
+.navbar {
+    position: absolute;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90vw;
+    max-width: 1200px;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    border-radius: 12px;
+    padding: 12px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: white;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+    z-index: 20; /* On top of Three.js canvas and other HUD */
+}
+  
+.logo {
+    font-weight: 700;
+    font-size: 1.4rem;
+    user-select: none;
+}
+  
+.navLinks {
+    list-style: none;
+    display: flex;
+    gap: 24px;
+    margin: 0;
+    padding: 0;
+}
+  
+.navLinks li a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1rem;
+    transition: color 0.2s ease;
+    cursor: pointer;
+}
+  
+.navLinks li a:hover,
+.navLinks li a:focus {
+    color: #00aaff;
+    outline: none;
+}
+  
+.buttons {
+    display: flex;
+    gap: 12px;
+}
+  
+.navButton {
+    background: transparent;
+    border: 1.5px solid white;
+    color: white;
+    padding: 6px 16px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+  
+.navButton:hover,
+.navButton:focus {
+    background-color: white;
+    color: black;
+    outline: none;
+}
+  
+.navButtonPrimary {
+    background-color: #00aaff;
+    border: none;
+    padding: 6px 20px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    color: white;
+}
+  
+.navButtonPrimary:hover,
+.navButtonPrimary:focus {
+    background-color: #008fcc;
+    outline: none;
+}
+
+.navButton {
+    background: transparent;
+    border: 1.5px solid white;
+    color: white;
+    padding: 6px 16px;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+  
+.navButton:hover,
+.navButton:focus {
+    background-color: white;
+    color: black;
+    outline: none;
+}
+  
+/* Highlight active mode button */
+.active {
+    background-color: #00aaff;
+    border-color: #00aaff;
+    color: white;
+}
+  

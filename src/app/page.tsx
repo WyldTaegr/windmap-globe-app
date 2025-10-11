@@ -1,11 +1,26 @@
-import Image from "next/image";
-import ThreeScene from "@/components/ThreeScene";
+'use client'
 
-export default function Home() {
+import { useState } from 'react'
+import ThreeScene from '@/components/ThreeScene'
+import FloatingNavbar from '@/components/FloatingNavbar'
+import styles from './page.module.css'
+
+export default function HomePage() {
+  // Define possible modes
+  const modes = ['cube', 'sphere', 'cone'] as const
+  type Mode = typeof modes[number]
+
+  // State to track the active mode, default to 'cube'
+  const [activeMode, setActiveMode] = useState<Mode>('cube')
+
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <h1>Check this out</h1>
-      <ThreeScene />
+    <div className={styles.container}>
+      <ThreeScene activeMode={activeMode} />
+      <FloatingNavbar
+        modes={modes}
+        activeMode={activeMode}
+        onModeChange={setActiveMode}
+      />
     </div>
-  );
+  )
 }
