@@ -15,7 +15,7 @@ export default function FloatingNavbar<Mode extends string>({
 }: FloatingNavbarProps<Mode>) {
   return (
     <nav className={styles.navbar}>
-      <div className={styles.logo}>My3DApp</div>
+      <div className={styles.logo}>WindMap</div>
       <ul className={styles.navLinks}>
         {modes.map((mode) => (
           <li key={mode}>
