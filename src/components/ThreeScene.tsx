@@ -3,6 +3,8 @@
 import { Canvas } from '@react-three/fiber'
 import { OrbitControls } from '@react-three/drei'
 import Globe from './Globe'
+import Marker from './Marker'
+import BalloonData from './BalloonData'
 
 interface ThreeSceneProps {
   activeMode: 'cube' | 'sphere' | 'cone' | 'globe'
@@ -10,6 +12,7 @@ interface ThreeSceneProps {
 
 export default function ThreeScene({ activeMode }: ThreeSceneProps) {
   const globeRadius = 100
+  const markerSize = 1
 
   return (
     <Canvas
@@ -27,13 +30,17 @@ export default function ThreeScene({ activeMode }: ThreeSceneProps) {
     >
       <ambientLight />
       <pointLight position={[10, 10, 10]} />
-      <mesh position={[0, 0, 0]}>
-        {activeMode === 'cube' && <boxGeometry args={[2, 2, 2]} />}
-        {activeMode === 'sphere' && <sphereGeometry args={[1.5, 32, 32]} />}
-        {activeMode === 'cone' && <coneGeometry args={[1, 2, 32]} />}
-        {activeMode === 'globe' && <Globe textureUrl='/textures/8081_earthmap10k.jpg' radius={globeRadius}/>}
-        <meshStandardMaterial color="orange" />
-      </mesh>
+
+      <Globe textureUrl='/textures/8081_earthmap10k.jpg' radius={globeRadius}/>
+
+      
+      <Marker lat={37.7749} lon={-122.4194} radius={globeRadius} height={10} size={markerSize} color={"red"}/> {/* San Francisco */}
+      <Marker lat={51.5074} lon={-0.1278} radius={globeRadius} height={10} size={markerSize} color={"blue"}/>  {/* London */}
+      <Marker lat={48.8566} lon={2.3522} radius={globeRadius} height={10} size={markerSize} color={"green"}/>   {/* Paris */}
+      <Marker lat={39.9042} lon={116.4074} radius={globeRadius} height={10} size={markerSize} color={"yellow"}/>   {/* Beijing */}
+
+      <BalloonData radius={globeRadius}/>
+      
       <OrbitControls 
         enablePan={false}
         minDistance={globeRadius+0.1}
