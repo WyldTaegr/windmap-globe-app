@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useState } from "react"
-import Marker from "./Marker"
+import MarkerChain from "./MarkerChain"
 
 interface LocationData {
     lat: number
@@ -13,30 +13,32 @@ interface BalloonDataProps {
     radius: number
 }
 
-const BalloonData: React.FC<BalloonDataProps> = ({radius}) => {
-    const markerSize = 1
+const zip = (arrays: LocationData[][]) => 
+  Array.from({ length: Math.max(...arrays.map(arr => arr.length)) }, (_, i) =>
+    arrays.map(arr => arr[i])
+  );
 
-    const [locations, setLocations] = useState<LocationData[]>([])
+
+async function getBallonDataAtHour(hour: number): Promise<LocationData[]> {
+    const response = await fetch(`/api/locations/${hour}`)
+    const data = await response.json()
+    return data.map((location: any) => ({
+        lat: location[0],
+        lon: location[1],
+        height: location[2]
+    }))
+}
+
+const BalloonData: React.FC<BalloonDataProps> = ({radius}) => {
+    const [locations, setLocations] = useState<LocationData[][]>([])
 
     useEffect(() => {
         const fetchLocations = async () => {
-            let data
-            try {
-                const response = await fetch("/api/locations")
-                data = await response.json()
-                console.log(data)
-            } catch (error) {
-                console.log(`Error caught: ${error}`)
-                return
-            }
+            const promises = Array.from({ length: 3 }, (_, i) => getBallonDataAtHour(i).then(data => data))
+            const hourlyLocations = await Promise.all(promises)
+            const balloonLocations = zip(hourlyLocations)
 
-            const locationsData: LocationData[] = data.map((location: any) => ({
-                lat: location[0],
-                lon: location[1],
-                height: location[2]
-            }))
-
-            setLocations(locationsData)
+            setLocations(balloonLocations)
         }
 
         fetchLocations()
@@ -47,7 +49,7 @@ const BalloonData: React.FC<BalloonDataProps> = ({radius}) => {
         <>
         {
             locations.map((location, index) => (
-                <Marker key={index} lat={location.lat} lon={location.lon} radius={radius} height={location.height} size={markerSize} color={"orange"} />
+                <MarkerChain key={index} locations={location} radius={radius} />
             ))
         }
         </>
