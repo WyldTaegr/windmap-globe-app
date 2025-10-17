@@ -7,7 +7,7 @@ import styles from './page.module.css'
 
 export default function HomePage() {
   // Define possible modes
-  const modes = ['cube', 'sphere', 'cone', 'globe'] as const
+  const modes = ['globe'] as const
   type Mode = typeof modes[number]
 
   // State to track the active mode, default to 'cube'

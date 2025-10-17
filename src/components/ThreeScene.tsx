@@ -5,9 +5,10 @@ import { OrbitControls } from '@react-three/drei'
 import Globe from './Globe'
 import Marker from './Marker'
 import BalloonData from './BalloonData'
+import AlertData from './AlertData'
 
 interface ThreeSceneProps {
-  activeMode: 'cube' | 'sphere' | 'cone' | 'globe'
+  activeMode: 'globe'
 }
 
 export default function ThreeScene({ activeMode }: ThreeSceneProps) {
@@ -40,6 +41,8 @@ export default function ThreeScene({ activeMode }: ThreeSceneProps) {
       <Marker lat={39.9042} lon={116.4074} radius={globeRadius} height={10} size={markerSize} color={"yellow"}/>   {/* Beijing */}
 
       <BalloonData radius={globeRadius}/>
+
+      <AlertData globeRadius={globeRadius} />
       
       <OrbitControls 
         enablePan={false}
