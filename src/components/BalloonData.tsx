@@ -23,7 +23,7 @@ const zip = (arrays: LocationData[][]) =>
 async function getBallonDataAtHour(hour: number): Promise<LocationData[]> {
     const response = await fetch(`/api/locations/${hour}`)
     const data = await response.json()
-    return data.map((location: any) => ({
+    return data.map((location: number[]) => ({
         lat: location[0],
         lon: location[1],
         height: location[2]

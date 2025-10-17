@@ -1,8 +1,6 @@
 // components/AlertPolygon.tsx
 import * as THREE from "three";
 import { useMemo } from "react";
-import { useFrame } from "@react-three/fiber";
-import { Mesh } from "three";
 
 type AlertPolygonProps = {
   geometry: {

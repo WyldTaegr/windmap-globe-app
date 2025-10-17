@@ -8,7 +8,7 @@ import BalloonData from './BalloonData'
 import AlertData from './AlertData'
 
 interface ThreeSceneProps {
-  activeMode: 'globe'
+  activeMode: 'globe' | 'test'
 }
 
 export default function ThreeScene({ activeMode }: ThreeSceneProps) {
@@ -34,11 +34,17 @@ export default function ThreeScene({ activeMode }: ThreeSceneProps) {
 
       <Globe textureUrl='/textures/8081_earthmap10k.jpg' radius={globeRadius}/>
 
+      {
+        activeMode == 'test' && (
+          <>
+            <Marker lat={37.7749} lon={-122.4194} radius={globeRadius} height={10} size={markerSize} color={"red"}/> {/* San Francisco */}
+            <Marker lat={51.5074} lon={-0.1278} radius={globeRadius} height={10} size={markerSize} color={"blue"}/>  {/* London */}
+            <Marker lat={48.8566} lon={2.3522} radius={globeRadius} height={10} size={markerSize} color={"green"}/>   {/* Paris */}
+            <Marker lat={39.9042} lon={116.4074} radius={globeRadius} height={10} size={markerSize} color={"yellow"}/>   {/* Beijing */}    
+          </>
+        )
+      }
       
-      <Marker lat={37.7749} lon={-122.4194} radius={globeRadius} height={10} size={markerSize} color={"red"}/> {/* San Francisco */}
-      <Marker lat={51.5074} lon={-0.1278} radius={globeRadius} height={10} size={markerSize} color={"blue"}/>  {/* London */}
-      <Marker lat={48.8566} lon={2.3522} radius={globeRadius} height={10} size={markerSize} color={"green"}/>   {/* Paris */}
-      <Marker lat={39.9042} lon={116.4074} radius={globeRadius} height={10} size={markerSize} color={"yellow"}/>   {/* Beijing */}
 
       <BalloonData radius={globeRadius}/>
 

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-export async function GET(_req: NextRequest, { params }: { params: { time: string } }) {
+export async function GET(_req: NextRequest, { params }: { params: Promise<{ time: string }> }) {
   const { time } = await params
   const timeInt = parseInt(time)
   const delay = String(timeInt).padStart(2, '0')

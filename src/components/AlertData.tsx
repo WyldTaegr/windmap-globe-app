@@ -16,7 +16,7 @@ type AlertFeature = {
     event: string;
     areaDesc: string;
     severity: string;
-    [key: string]: any;
+    [key: string]: unknown;
   };
 };
 
@@ -67,8 +67,8 @@ export default function AlertData({
 
           nextUrl = data.pagination?.next || null;
         }
-      } catch (err: any) {
-        setError(err.message || "Error fetching alerts");
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "Error fetching alerts");
       }
     }
 
