@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react"
 import MarkerChain from "./MarkerChain"
 import { Html } from "@react-three/drei"
+import { useGlobalLoading } from "@/app/context/LoadingContext"
 
 interface LocationData {
     lat: number
@@ -33,9 +34,11 @@ async function getBallonDataAtHour(hour: number): Promise<LocationData[]> {
 const BalloonData: React.FC<BalloonDataProps> = ({radius}) => {
     const [locations, setLocations] = useState<LocationData[][]>([])
     const [failedHours, setFailedHours] = useState<number[]>([]);
+    const { startLoading, stopLoading } = useGlobalLoading()
 
     useEffect(() => {
         const fetchLocations = async () => {
+            startLoading()
             const promises = Array.from({ length: 3 }, (_, i) => getBallonDataAtHour(i))
             const results = await Promise.allSettled(promises)
             
@@ -54,10 +57,11 @@ const BalloonData: React.FC<BalloonDataProps> = ({radius}) => {
 
             setLocations(balloonLocations)
             setFailedHours(failed)
+            stopLoading()
         }
 
         fetchLocations()
-    }, [])
+    }, [startLoading, stopLoading])
 
 
     return (

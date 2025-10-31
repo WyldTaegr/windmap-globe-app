@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Text } from "@react-three/drei";
 import AlertPolygon from "./AlertPolygon";
+import { useGlobalLoading } from "@/app/context/LoadingContext";
 
 const INITIAL_ALERTS_API_URL = "https://api.weather.gov/alerts?severity=severe";
 
@@ -26,7 +27,7 @@ export default function AlertData({
   globeRadius?: number;
 }) {
   const [alerts, setAlerts] = useState<AlertFeature[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { startLoading, stopLoading } = useGlobalLoading()
   const [error, setError] = useState<string | null>(null);
 
   const seenIds = useRef<Set<string>>(new Set());
@@ -35,6 +36,7 @@ export default function AlertData({
     let cancelled = false;
 
     async function fetchAlerts() {
+      startLoading()
       try {
         let nextUrl: string | null = INITIAL_ALERTS_API_URL;
 
@@ -62,13 +64,14 @@ export default function AlertData({
           // Append only new alerts
           if (uniqueNew.length > 0) {
             setAlerts(prev => [...prev, ...uniqueNew]);
-            if (loading) setLoading(false);
           }
 
           nextUrl = data.pagination?.next || null;
         }
       } catch (err) {
         setError(err instanceof Error ? err.message : "Error fetching alerts");
+      } finally {
+        stopLoading()
       }
     }
 
@@ -77,23 +80,7 @@ export default function AlertData({
     return () => {
       cancelled = true;
     };
-  }, []);
-
-  // Show an initial loading state until the first page is rendered
-  if (loading)
-    return (
-      <group>
-        <Text
-          position={[0, 0, 1.5]}
-          fontSize={0.05}
-          color="white"
-          anchorX="center"
-          anchorY="middle"
-        >
-          Loading alerts…
-        </Text>
-      </group>
-    );
+  }, [startLoading, stopLoading]);
 
   if (error)
     return (
